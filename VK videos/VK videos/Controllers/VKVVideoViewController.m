@@ -22,7 +22,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view setBackgroundColor:Rgb2UIColor(80, 114, 153)];
-    [self.navigationController setNavigationBarHidden:NO];
     
     WKAudiovisualMediaTypes avmt=WKAudiovisualMediaTypeVideo;
     WKWebViewConfiguration *config=[[WKWebViewConfiguration alloc]init];
@@ -58,7 +57,6 @@
 
 
 -(void)viewWillDisappear:(BOOL)animated{
-    [self.navigationController setNavigationBarHidden:YES];
     [_webView stopLoading];
     NSLog(@"stop loading");
 }

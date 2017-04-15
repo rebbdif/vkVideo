@@ -26,8 +26,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor=Rgb2UIColor(80, 114, 153);
-    [self.navigationController setNavigationBarHidden:YES];
-    self.navigationController.navigationBar.backgroundColor = Rgb2UIColor(80, 114, 153);
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -58,8 +56,8 @@
 
 -(void) moveToTVC{
     VKVTableViewController* tvc=[[VKVTableViewController alloc] init];
-    [self.navigationController pushViewController:tvc animated:YES];
-    //[self showViewController:tvc sender:self];
+    UINavigationController *nvc=[[UINavigationController alloc]initWithRootViewController:tvc];
+    [self presentViewController:nvc animated:YES completion:nil];
 }
 
 #pragma - WKNavigationDelegate

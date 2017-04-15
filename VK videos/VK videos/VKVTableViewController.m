@@ -32,6 +32,7 @@
     self.navigationController.navigationBar.opaque=NO;
   //  [UIApplication sharedApplication].statusBarStyle=UIStatusBarStyleBlackOpaque;
     
+    
 }
 
 -(void) addTableView{

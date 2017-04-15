@@ -44,8 +44,7 @@
 -(NSString*)getAccessTokenFromSafePlace{
     NSString* accessToken=[[NSString alloc]init];
     accessToken=[[NSUserDefaults standardUserDefaults] objectForKey:@"VKAccessToken"];
-    //accessToken=@"acc272be44993aa9bf8d7d45f956889a1b02d6f1108cae79ea734e1d65ccef55a3eee449ed26ebb6b924e";
-
+    
     return accessToken;
 }
 
@@ -91,7 +90,9 @@
             [_videoArray addObject:videoInfo];
             
         }
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"got forty" object:self];
+        dispatch_async(dispatch_get_main_queue(),^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"got forty" object:self];
+        });
     }
 }
 
@@ -99,13 +100,17 @@
     NSLog(@"started loading image for indexpath %ld %@",indexpath.row, videoData.imageURL);
     if (videoData.imageURL!=nil)
     {
-        dispatch_async(dispatch_get_main_queue(), ^{ [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;});
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        });
         
         NSURL*url=[NSURL URLWithString:videoData.imageURL];
         NSURLSession *imageSession=[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         
         videoData.task=[imageSession dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            dispatch_async(dispatch_get_main_queue(), ^{[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;});
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            });
             if (error) {
                 NSLog(@"getImages: ERROR %@",error.localizedDescription);
             }
@@ -117,7 +122,7 @@
                 [videoData.image drawInRect:imageRect];
                 videoData.image = UIGraphicsGetImageFromCurrentImageContext();
                 UIGraphicsEndImageContext();
-
+                
                 
                 NSLog(@"finished loading image for indexpath %ld",indexpath.row);
                 dispatch_async(dispatch_get_main_queue(), ^{ completionHandler();});

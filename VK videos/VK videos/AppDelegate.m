@@ -24,8 +24,7 @@
 - (void) createUI{
     self.window=[[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
     VKVMainViewController *mainVC=[[VKVMainViewController alloc] init];
-    UINavigationController *navigationController=[[UINavigationController alloc] initWithRootViewController:mainVC];
-    self.window.rootViewController = navigationController;
+    self.window.rootViewController = mainVC;
     [self.window makeKeyAndVisible];
     
 }
