@@ -10,13 +10,13 @@
 
 @implementation VideoData
 
--(VideoData*)initWithDictionary: (NSDictionary*)dict{
++ (VideoData *)videoWithDictionary:(NSDictionary *)dict{
     VideoData*data=nil;
     data=[VideoData alloc];
     data.videoName=[dict valueForKey:@"title"];
     
     double seconds=[[dict valueForKey:@"duration"] doubleValue];
-    data.videoDuration=[self getTimeStringFromSeconds:seconds];
+    data.videoDuration=[VideoData getTimeStringFromSeconds:seconds];
     
     data.videoURL=[dict valueForKey:@"player"];
     
@@ -28,20 +28,15 @@
         else if ([key hasPrefix:@"photo"]) {
             data.imageURL=[dict valueForKey:key];
             break;
+        }
     }
-    }
-    
-    
-    [self getImage:data.imageURL];
     
     return data;
 }
 
--(void)getImage:(NSString *) imageURL{
-    
-}
 
--(NSString *)getTimeStringFromSeconds:(double)seconds
+
++ (NSString *)getTimeStringFromSeconds:(double)seconds
 {
     NSDateComponentsFormatter *dcFormatter = [[NSDateComponentsFormatter alloc] init];
     dcFormatter.zeroFormattingBehavior = NSDateComponentsFormatterZeroFormattingBehaviorPad;

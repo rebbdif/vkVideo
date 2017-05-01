@@ -8,7 +8,6 @@
 
 #import "VKVTableViewController.h"
 #import "VKVTableViewModel.h"
-#import "VKVTableView.h"
 #import "VKVTableViewCell.h"
 #import "VideoData.h"
 
@@ -16,7 +15,7 @@
 
 @interface VKVTableViewController ()<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 @property (strong,nonatomic) VKVTableViewModel * model;
-@property(strong, nonatomic) VKVTableView *tableView;
+@property(strong, nonatomic) UITableView *tableView;
 @property(strong,nonatomic) NSMutableDictionary *activeDownloads;
 @property(strong,nonatomic)NSString*searchRequest;
 @property(strong,nonatomic)UISearchBar *searchBar;
@@ -27,45 +26,40 @@
 -(void) viewDidLoad{
     [super viewDidLoad];
     [self addTableView];
-    _model=[[VKVTableViewModel alloc]init];
+    self.model=[[VKVTableViewModel alloc]init];
     [self.navigationController setNavigationBarHidden:NO];
     self.navigationController.navigationBar.opaque=NO;
-  //  [UIApplication sharedApplication].statusBarStyle=UIStatusBarStyleBlackOpaque;
-    
     
 }
 
 -(void) addTableView{
-    _tableView=[[VKVTableView alloc]initWithFrame:self.view.bounds];
-    [_tableView configureTableView];
-    [self.view addSubview:_tableView];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    [_tableView registerClass:[VKVTableViewCell class] forCellReuseIdentifier:@"tableViewCell"];
+    self.tableView=[[UITableView alloc]initWithFrame:self.view.bounds];
+    self.tableView.backgroundColor=[UIColor lightGrayColor];
+    self.tableView.rowHeight=100;
+    [self.view addSubview:self.tableView];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.tableView registerClass:[VKVTableViewCell class] forCellReuseIdentifier:@"tableViewCell"];
     
-    _searchBar=[[UISearchBar alloc]init];
-    _searchBar.placeholder=@"Введите название видео";
-    [_searchBar sizeToFit];
+    self.searchBar=[[UISearchBar alloc]init];
+    self.searchBar.placeholder=@"Введите название видео";
+    [self.searchBar sizeToFit];
     self.navigationItem.titleView = self.searchBar;
-  //  self.navigationController.navigationItem.titleView=_searchBar;
-    //self.tableView.tableHeaderView=_searchBar;
-    _searchBar.delegate=self;
-    [_searchBar becomeFirstResponder];
+    self.searchBar.delegate=self;
+    [self.searchBar becomeFirstResponder];
 }
 
 #pragma mark searchBarDelegate
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    _searchRequest= searchBar.text;
-    NSLog(@"searchBarSearchButtonClicked %@",_searchRequest);
+    self.searchRequest= searchBar.text;
     [searchBar endEditing:YES];
-    if(_searchRequest){
-        [_model stopDownloads:self.activeDownloads];
-        [_model clear];
-        [_tableView reloadData];
-        [_model getVideosWithOffset:0 forQueury:_searchRequest];
+    if(self.searchRequest){
+        [self.model stopDownloads:self.activeDownloads];
+        [self.model clear];
+        [self.tableView reloadData];
+        [self.model getVideosWithOffset:0 forQueury:self.searchRequest];
     }
-
 }
 
 -(void) viewWillAppear:(BOOL)animated{
@@ -77,15 +71,11 @@
 }
 -(void)gotForty{
     NSLog(@"ready to present new values on TableView");
-    [_searchBar resignFirstResponder];
-    [_tableView becomeFirstResponder];
-    [_tableView refreshControl];
-    [_tableView reloadData];
-
-
+    [self.searchBar resignFirstResponder];
+    [self.tableView becomeFirstResponder];
+    [self.tableView refreshControl];
+    [self.tableView reloadData];
 }
-
-
 
 #pragma mark - table view
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -95,7 +85,6 @@
         cell=[[VKVTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"tableViewCell"];
     }
     VideoData * info=[_model.videoArray objectAtIndex:indexPath.row];
-    // NSLog(@"row= %ld", (long)indexPath.row);
     cell.textLabel.text=info.videoName;
     cell.detailTextLabel.text=info.videoDuration;
     
@@ -181,10 +170,6 @@
     else return 0;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 100;
-}
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     VKVVideoViewController* vvc=[[VKVVideoViewController alloc] init];
     VideoData *thisVideo= [_model.videoArray objectAtIndex:indexPath.row];
@@ -192,13 +177,12 @@
         vvc.videoURL= thisVideo.videoURL;
         [self showViewController:vvc sender:self];
     }
-    
 }
 
 -(void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
-    [_model stopDownloads:self.activeDownloads];
-    [_model clear];
+    [self.model stopDownloads:self.activeDownloads];
+    [self.model clear];
 }
 
 -(void)dealloc{

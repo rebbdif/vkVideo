@@ -9,7 +9,6 @@
 #import <WebKit/WebKit.h>
 #import <Security/Security.h>
 
-
 #import "VKVMainViewController.h"
 #import "VKVTableViewController.h"
 
@@ -30,7 +29,6 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     _authorised=NO;
-    
     if (_authorised==NO) {
         [self showSignInWebView];
     }
@@ -52,7 +50,6 @@
     NSURLRequest *nsurlRequest=[NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [_webView loadRequest:nsurlRequest];
 }
-
 
 -(void) moveToTVC{
     VKVTableViewController* tvc=[[VKVTableViewController alloc] init];
@@ -103,8 +100,6 @@
 
 -(void)saveToken:(NSString*)accessToken{
     ///конечно надо хранить в кейчейне, но не успеваю, и тут токен дает права только к видео, может и не страшно
-  //  NSLog(@"accessToken.count = %lu", (unsigned long)[accessToken length]);
- //   NSLog(@"accessToken. = %@", accessToken);
     [[NSUserDefaults standardUserDefaults] setObject:accessToken forKey:@"VKAccessToken"];
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"VKAccessTokenDate"];
     [[NSUserDefaults standardUserDefaults] synchronize];

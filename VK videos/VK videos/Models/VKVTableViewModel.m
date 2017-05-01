@@ -6,97 +6,68 @@
 //  Copyright © 2017 serebryanyy. All rights reserved.
 //
 
-/*
- https://oauth.vk.com/authorize?client_id=5932466&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=video&response_type=token&v=5.52
- */
-
-
 #import "VKVTableViewModel.h"
+#import "NetworkService.h"
+
 @interface VKVTableViewModel()
-@property(nonatomic, getter=isNetworkActivityIndicatorVisible) BOOL networkActivityIndicatorVisible;
+
+@property(strong,nonatomic) NetworkService *networkService;
+
 @end
-
-
-
 
 @implementation VKVTableViewModel
 
+-(instancetype)init{
+    self=[super init];
+    if(self){
+        _networkService=[NetworkService new];
+    }
+    return self;
+}
+
 -(void)getVideosWithOffset:(NSNumber*)offset forQueury:(NSString *)searchQuiery0{
-    
-    NSString *searchIntro=@"https://api.vk.com/method/video.search?q=";
-    NSCharacterSet *allowedCharSet= [NSCharacterSet URLQueryAllowedCharacterSet];
-    NSString *searchQuiery1=[searchQuiery0 stringByAddingPercentEncodingWithAllowedCharacters: allowedCharSet];
-    
+    NSString *searchQuiery1=[searchQuiery0 stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]];
     NSString *otherParameters=@"&sort=2&count=40&offset=";
     if (offset) {otherParameters=[NSString stringWithFormat:@"%@%@", otherParameters,offset];}
-    NSString *searchQuiery2=[searchQuiery1 stringByAppendingString:otherParameters];
-    NSString *searchQuiery3=[searchIntro stringByAppendingString: searchQuiery2];
-    
     NSString*accessToken= [self getAccessTokenFromSafePlace];
-    NSString *accessTokenFinal=[@"&access_token="stringByAppendingString:accessToken];
-    
-    NSURL *finalURL=[NSURL URLWithString:[searchQuiery3 stringByAppendingString:accessTokenFinal]];
-    
-    [self performRequestWithHTTPS:finalURL];
-    
+    NSString *url=[NSString stringWithFormat:@"https://api.vk.com/method/video.search?q=%@%@&access_token=%@",searchQuiery1,otherParameters,accessToken];
+
+    __weak typeof(self) weakself=self;
+    [self.networkService performRequestWithHTTPS:[NSURL URLWithString:url] andCompletionHandler:^(NSData *data) {
+        [weakself useData:data];
+    }];
 }
 
 -(NSString*)getAccessTokenFromSafePlace{
     NSString* accessToken=[[NSString alloc]init];
     accessToken=[[NSUserDefaults standardUserDefaults] objectForKey:@"VKAccessToken"];
-    
     return accessToken;
 }
 
--(void) performRequestWithHTTPS: (NSURL*) url {
-    
-    NSURLSessionConfiguration* sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfig];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    NSURLSessionDataTask *task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        dispatch_async(dispatch_get_main_queue(), ^{        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        });
-        if (error) {
-            NSLog(@"ERROR %@",error.localizedDescription);
-        }
-        else {
-            NSHTTPURLResponse *resp =(NSHTTPURLResponse *)response;
-            if (resp.statusCode==200){
-                NSLog(@"network interactions were successful");
-                [self useData:data];
-            }
-        }
-    }];
-    [task resume];
-}
-
--(void) useData: (NSData *_Nullable)  data{
-    
-    if(!_videoArray) _videoArray=[[NSMutableArray alloc]init];
+- (void) useData: (NSData *_Nullable)  data{
+    if(!self.videoArray) self.videoArray=[[NSMutableArray alloc]init];
     NSError *error = nil;
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableContainers error: &error];
     if (!json) {
         NSLog(@"Error parsing JSON: %@", error);
         return;
     }
-    
     if ([json valueForKey:@"error"]) {
-        NSLog(@"useData: error_code: %@",[json valueForKey:@"error_code"]);
         NSLog(@"useData: error_msg : %@",[json valueForKey:@"error_msg"]);
     }
     else{
+        NSMutableArray *newVideos=[[NSMutableArray alloc]initWithArray:self.videoArray];
         for (id dict in [json valueForKey:@"response"]){
-            VideoData* videoInfo=[[VideoData alloc]initWithDictionary:dict];
-            [_videoArray addObject:videoInfo];
-            
+            [newVideos addObject:[VideoData videoWithDictionary:dict]];
         }
+        self.videoArray=newVideos;
         dispatch_async(dispatch_get_main_queue(),^{
             [[NSNotificationCenter defaultCenter] postNotificationName:@"got forty" object:self];
         });
     }
 }
 
--(void)getImagesForObject:(VideoData*) videoData forIndexPath:(NSIndexPath*)indexpath withCompletionHandler:(void(^)())completionHandler{
+- (void)getImagesForObject:(VideoData*) videoData forIndexPath:(NSIndexPath*)indexpath withCompletionHandler:(void(^)())completionHandler{
     NSLog(@"started loading image for indexpath %ld %@",indexpath.row, videoData.imageURL);
     if (videoData.imageURL!=nil)
     {
@@ -104,10 +75,7 @@
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         });
         
-        NSURL*url=[NSURL URLWithString:videoData.imageURL];
-        NSURLSession *imageSession=[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-        
-        videoData.task=[imageSession dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        videoData.task=[self.networkService.session dataTaskWithURL:[NSURL URLWithString:videoData.imageURL] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             });
@@ -123,26 +91,24 @@
                 videoData.image = UIGraphicsGetImageFromCurrentImageContext();
                 UIGraphicsEndImageContext();
                 
-                
-                NSLog(@"finished loading image for indexpath %ld",indexpath.row);
-                dispatch_async(dispatch_get_main_queue(), ^{ completionHandler();});
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completionHandler();
+                });
             }
-            
         }];
-        
         [videoData.task resume];
         
     }
 }
 
--(void)stopDownloads:(NSMutableDictionary *)downloadsDict{
+- (void)stopDownloads:(NSMutableDictionary *)downloadsDict{
     for ( VideoData* data in downloadsDict) {
         [data.task cancel];
     }
 }
 
--(void)clear{
-    [_videoArray removeAllObjects];
+- (void)clear{
+    _videoArray=nil;
 }
 
 @end

@@ -10,7 +10,7 @@
 #import "VideoData.h"
 
 @interface VKVTableViewModel : NSObject
-@property(nonatomic, strong) NSMutableArray *videoArray;
+@property(copy,nonatomic) NSArray *videoArray;
 @property(nonatomic, strong) NSString *tempToken;
 
 -(void)getVideosWithOffset:(NSNumber*)offset forQueury: (NSString*)searchQuiery0;

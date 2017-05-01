@@ -9,12 +9,13 @@
 /* Begin PBXBuildFile section */
 		6343271D1E82C1A800BB04F9 /* noun_887945_cc.png in Resources */ = {isa = PBXBuildFile; fileRef = 6343271C1E82C1A800BB04F9 /* noun_887945_cc.png */; };
 		635E22C61E8128C8003E639D /* VideoData.m in Sources */ = {isa = PBXBuildFile; fileRef = 635E22C51E8128C8003E639D /* VideoData.m */; };
+		636D52891EB7F4F10060AF99 /* NetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = 636D52881EB7F4F10060AF99 /* NetworkService.m */; };
+		636D528B1EB7FE110060AF99 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 636D528A1EB7FE110060AF99 /* LaunchScreen.storyboard */; };
 		63A142471E7C232300C663A9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A142461E7C232300C663A9 /* main.m */; };
 		63A1424A1E7C232300C663A9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A142491E7C232300C663A9 /* AppDelegate.m */; };
 		63A142521E7C232400C663A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63A142511E7C232400C663A9 /* Assets.xcassets */; };
 		63A1425E1E7C24BC00C663A9 /* VKVTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A1425D1E7C24BC00C663A9 /* VKVTableViewController.m */; };
 		63A1426A1E7C260A00C663A9 /* VKVTableViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A142691E7C260A00C663A9 /* VKVTableViewModel.m */; };
-		63A1426D1E7C263900C663A9 /* VKVTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A1426C1E7C263900C663A9 /* VKVTableView.m */; };
 		63A142701E7C352F00C663A9 /* VKVMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A1426F1E7C352F00C663A9 /* VKVMainViewController.m */; };
 		63A142731E7D502D00C663A9 /* VKVTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A142721E7D502D00C663A9 /* VKVTableViewCell.m */; };
 		63A142751E7D75C100C663A9 /* noun_860149_cc.png in Resources */ = {isa = PBXBuildFile; fileRef = 63A142741E7D75C100C663A9 /* noun_860149_cc.png */; };
@@ -25,6 +26,9 @@
 		6343271C1E82C1A800BB04F9 /* noun_887945_cc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noun_887945_cc.png; sourceTree = "<group>"; };
 		635E22C41E8128C8003E639D /* VideoData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoData.h; path = Models/VideoData.h; sourceTree = "<group>"; };
 		635E22C51E8128C8003E639D /* VideoData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoData.m; path = Models/VideoData.m; sourceTree = "<group>"; };
+		636D52871EB7F4F10060AF99 /* NetworkService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkService.h; path = Servises/NetworkService.h; sourceTree = "<group>"; };
+		636D52881EB7F4F10060AF99 /* NetworkService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkService.m; path = Servises/NetworkService.m; sourceTree = "<group>"; };
+		636D528A1EB7FE110060AF99 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		63A142421E7C232300C663A9 /* VK videos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VK videos.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		63A142461E7C232300C663A9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		63A142481E7C232300C663A9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -35,8 +39,6 @@
 		63A1425D1E7C24BC00C663A9 /* VKVTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VKVTableViewController.m; sourceTree = "<group>"; };
 		63A142681E7C260A00C663A9 /* VKVTableViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VKVTableViewModel.h; path = Models/VKVTableViewModel.h; sourceTree = "<group>"; };
 		63A142691E7C260A00C663A9 /* VKVTableViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VKVTableViewModel.m; path = Models/VKVTableViewModel.m; sourceTree = "<group>"; };
-		63A1426B1E7C263900C663A9 /* VKVTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VKVTableView.h; path = Views/VKVTableView.h; sourceTree = "<group>"; };
-		63A1426C1E7C263900C663A9 /* VKVTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VKVTableView.m; path = Views/VKVTableView.m; sourceTree = "<group>"; };
 		63A1426E1E7C352F00C663A9 /* VKVMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VKVMainViewController.h; path = Controllers/VKVMainViewController.h; sourceTree = "<group>"; };
 		63A1426F1E7C352F00C663A9 /* VKVMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VKVMainViewController.m; path = Controllers/VKVMainViewController.m; sourceTree = "<group>"; };
 		63A142711E7D502D00C663A9 /* VKVTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VKVTableViewCell.h; path = Views/VKVTableViewCell.h; sourceTree = "<group>"; };
@@ -57,6 +59,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		636D52831EB7F4610060AF99 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				636D52871EB7F4F10060AF99 /* NetworkService.h */,
+				636D52881EB7F4F10060AF99 /* NetworkService.m */,
+			);
+			name = Service;
+			sourceTree = "<group>";
+		};
 		63A142391E7C232300C663A9 = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +87,7 @@
 		63A142441E7C232300C663A9 /* VK videos */ = {
 			isa = PBXGroup;
 			children = (
+				636D52831EB7F4610060AF99 /* Service */,
 				63A1427A1E7EDC0D00C663A9 /* Resourses */,
 				63A142791E7EDBD200C663A9 /* Application */,
 				63A142601E7C24DC00C663A9 /* Models */,
@@ -92,6 +104,7 @@
 				63A142741E7D75C100C663A9 /* noun_860149_cc.png */,
 				6343271C1E82C1A800BB04F9 /* noun_887945_cc.png */,
 				63A142561E7C232400C663A9 /* Info.plist */,
+				636D528A1EB7FE110060AF99 /* LaunchScreen.storyboard */,
 				63A142461E7C232300C663A9 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -143,8 +156,6 @@
 		63A1427B1E7EDC3300C663A9 /* VKVTable */ = {
 			isa = PBXGroup;
 			children = (
-				63A1426B1E7C263900C663A9 /* VKVTableView.h */,
-				63A1426C1E7C263900C663A9 /* VKVTableView.m */,
 				63A142711E7D502D00C663A9 /* VKVTableViewCell.h */,
 				63A142721E7D502D00C663A9 /* VKVTableViewCell.m */,
 			);
@@ -248,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63A142521E7C232400C663A9 /* Assets.xcassets in Resources */,
+				636D528B1EB7FE110060AF99 /* LaunchScreen.storyboard in Resources */,
 				6343271D1E82C1A800BB04F9 /* noun_887945_cc.png in Resources */,
 				63A142751E7D75C100C663A9 /* noun_860149_cc.png in Resources */,
 			);
@@ -263,11 +275,11 @@
 				63A142781E7DB62000C663A9 /* VKVVideoViewController.m in Sources */,
 				635E22C61E8128C8003E639D /* VideoData.m in Sources */,
 				63A1424A1E7C232300C663A9 /* AppDelegate.m in Sources */,
-				63A1426D1E7C263900C663A9 /* VKVTableView.m in Sources */,
 				63A1425E1E7C24BC00C663A9 /* VKVTableViewController.m in Sources */,
 				63A142701E7C352F00C663A9 /* VKVMainViewController.m in Sources */,
 				63A142731E7D502D00C663A9 /* VKVTableViewCell.m in Sources */,
 				63A1426A1E7C260A00C663A9 /* VKVTableViewModel.m in Sources */,
+				636D52891EB7F4F10060AF99 /* NetworkService.m in Sources */,
 				63A142471E7C232300C663A9 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

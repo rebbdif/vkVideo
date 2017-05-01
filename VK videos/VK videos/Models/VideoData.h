@@ -16,6 +16,6 @@
 @property(strong,nonatomic)NSString *videoURL;
 @property(strong,nonatomic)UIImage *image;
 @property(strong,nonatomic) NSURLSessionDataTask *task;
--(VideoData*)initWithDictionary: (NSDictionary*)dict;
++ (VideoData*)videoWithDictionary: (NSDictionary*)dict;
 @end
 
